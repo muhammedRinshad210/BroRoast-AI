@@ -33,7 +33,19 @@
 
                     <p>Ask anything... Get roasted 😂</p>
 
-                    <h3>{{ message }}</h3>
+                    {% if message %}
+
+                    <div class="d-flex justify-content-end mt-4">
+
+                        <div class="bg-primary text-white p-3 rounded">
+                            {{ message }}
+                        </div>
+
+                    </div>
+
+                    {% endif %}
+
+                    
 
                 </div>
 
