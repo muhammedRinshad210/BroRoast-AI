@@ -4,4 +4,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def home(request):
+    
+    message = request.GET.get("message")
+
+    print(message)
+
     return render(request,"home.html")
