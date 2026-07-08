@@ -22,6 +22,27 @@
                 <hr>
 
                 <p>History Coming Soon...</p>
+                {% for chat in messages %}
+
+                <div class="d-flex justify-content-end mt-3">
+                    
+                    <div class="bg-primary text-white p-3 rounded">
+
+                        {{ chat.user }}
+
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-start mt-3">
+                    
+                    <div class="bg-primary text-white p-3 rounded">
+
+                        {{ chat.bot }}
+                    </div>    
+                </div>
+
+                {% endfor %}    
+                
         </div>
 
         <div class="col-9 d-flex flex-column">
