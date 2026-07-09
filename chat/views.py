@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.http import HttpResponse
+
 import random
 
 def home(request):
@@ -15,7 +15,10 @@ def home(request):
 
         "hi": [
             "😂 Finally ezhunnetto?",
-            "🤣 Coffee kudicho?"
+            "🤣 Coffee kudicho?",
+            "😂 Bro... First nee urakkathil ninnu ezhunnetto? Pinne hi okke parayam.",
+            "🤣 Bro... Coffee kudichittu vaa.",
+            "😎 Finally online vannallo.",
         ],
 
         "bmw": [
@@ -29,17 +32,32 @@ def home(request):
 
     if message : 
 
-        if "hi" in message.lower():
-            replies = [
-                "😂 Bro... First nee urakkathil ninnu ezhunnetto? Pinne hi okke parayam.",
-                "🤣 Bro... Coffee kudichittu vaa.",
-                "😎 Finally online vannallo.",
-                ]
-            reply = random.choice(replies)
+        if message.lower() in roasts:
+            replies = roasts[message.lower()]
+            
 
-            messages.append({
+            
+
+        else:
+
+            replies = [
+
+                "😂 Bro... Athu enikku manassilaayilla.",
+
+                "🤣 Kurachu simple ayi para bro.",
+
+                "😎 BroRoast AI ippo training-il aanu. Veendum try cheyy."
+
+            ]
+
+        reply = random.choice(replies)
+
+        messages.append({
+
                 "user": message,
-                "bot": reply,
+
+                "bot": reply
+
             })
         
 
