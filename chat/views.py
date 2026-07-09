@@ -7,7 +7,6 @@ from .models import Chat
 
 def home(request):
 
-    messages = Chat.objects.all().order_by("-id")
 
     message = request.POST.get("message")
 
@@ -76,8 +75,15 @@ def home(request):
 
     # print(message)
 
+    messages = Chat.objects.all().order_by("-id")
+
+    total_chats = Chat.objects.count()
+
+    
+
     return render(request,"home.html", {
         "message": message,
         "reply": reply,
         "messages": messages,
+        "total_chats": total_chats,
     })
