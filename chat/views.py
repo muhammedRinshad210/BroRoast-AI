@@ -3,10 +3,11 @@ from django.shortcuts import render
 # Create your views here.
 
 import random
+from .models import Chat
 
 def home(request):
 
-    messages = []
+    messages = Chat.objects.all().order_by("-id")
 
     message = request.POST.get("message")
 
@@ -24,7 +25,16 @@ def home(request):
         "bmw": [
             "🚗 Aadya cycle odikku bro.",
             "😂 BMW undo? Key mathram undo?"
+        ],
+        "hello":[
+
+            "😂 Hello aano... Hero aano bro?",
+
+            "🤣 Hello parayan 2 manikkur edutho?",
+
+            "😎 Hello accepted. Roast loading..."
         ]
+        
 
     }
     
@@ -32,33 +42,36 @@ def home(request):
 
     if message : 
 
-        if message.lower() in roasts:
-            replies = roasts[message.lower()]
-            
+        found = False
 
-            
 
-        else:
+        for keyword in roasts:
 
-            replies = [
+            if keyword in message.lower():
 
+                replies = roasts[keyword]
+
+                found = True
+
+                break
+
+        if not found:
+            replies= [
                 "😂 Bro... Athu enikku manassilaayilla.",
 
                 "🤣 Kurachu simple ayi para bro.",
 
-                "😎 BroRoast AI ippo training-il aanu. Veendum try cheyy."
-
+                "😎 BroRoast AI ippo training-il aanu."
             ]
+
 
         reply = random.choice(replies)
 
-        messages.append({
-
-                "user": message,
-
-                "bot": reply
-
-            })
+        
+        Chat.objects.create(
+            user_message=message,
+            bot_reply=reply
+        )
         
 
     # print(message)
