@@ -4,6 +4,9 @@ from django.shortcuts import render, redirect
 
 import random
 from .models import Chat
+from google import genai
+
+client = genai.Client(api_key = "AIzaSyCaws_5QNhfhSWnYCU0BPJCsA6TX3bIa7o")
 
 def home(request):
 
@@ -64,13 +67,23 @@ def home(request):
             ]
 
 
-        reply = random.choice(replies)
+        # reply = random.choice(replies)
+        response = client.models.generate_content(
 
+            model = "gemini-3.5-flash",
+
+            contents = message,
+
+            
+        )
+        
+        reply = response.text
         
         Chat.objects.create(
             user_message=message,
             bot_reply=reply
         )
+        print(reply)
         
 
     # print(message)
