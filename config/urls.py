@@ -22,6 +22,8 @@ from chat.views import home
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',home),
-    path("delete/<int:id>/",views.delete_chat, name = "delete_chat")
+    path("delete/<int:id>/", views.delete_chat, name = "delete_chat"),
+    path("chat/<int:id>/", views.open_chat, name = "open_chat"),
+    path("clear/", views.clear_chat, name = "clear_chat"),
 
 ]

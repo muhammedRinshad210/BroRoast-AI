@@ -90,6 +90,30 @@ def home(request):
 
 
 def delete_chat(request, id):
+
     chat = Chat.objects.get(id = id)
+
     chat.delete()
+
+    return redirect("/")
+
+
+def open_chat(request, id):
+
+    chat = Chat.objects.get(id = id)
+
+    messages = Chat.objects.all().order_by("-id")
+
+    total_chats = Chat.objects.count()
+
+    return render(request, "home.html", {
+        "chat" : chat,
+        "messages" : messages,
+        "total_chats" : total_chats,
+    })
+
+def clear_chat(request):
+
+    Chat.objects.all().delete()
+
     return redirect("/")
