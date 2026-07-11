@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 
@@ -87,3 +87,9 @@ def home(request):
         "messages": messages,
         "total_chats": total_chats,
     })
+
+
+def delete_chat(request, id):
+    chat = Chat.objects.get(id = id)
+    chat.delete()
+    return redirect("/")

@@ -22,27 +22,26 @@
                 <hr>
 
                 <p>History </p>
-                <p>Total chats : {{ total_chats }}</p>
+
+                <p class="text-secondary"> Total Chats : {{ total_chats }} </p>
+                
                 {% for chat in messages %}
 
-                <div class="d-flex justify-content-end mt-3">
-                    
-                    <div class="bg-primary text-white p-3 rounded">
+                <div class="d-flex justify-content-between align-items-center">
 
-                        {{ chat.user_message }}
+                    <div>
+
+                    {{ chat.user_message|truncatechars:20 }}
 
                     </div>
+
+                    <a href="{% url 'delete_chat' chat.id %}" class="btn btn-sm btn-danger">
+                        🗑️
+                    </a>
+
+
                 </div>
-
-                <div class="d-flex justify-content-start mt-3">
-                    
-                    <div class="bg-primary text-white p-3 rounded">
-
-                        {{ chat.bot_reply }}
-                    </div>    
-                </div>
-
-                {% endfor %}    
+                {% endfor %}
                 
         </div>
 

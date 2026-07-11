@@ -16,10 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from chat import views
 from chat.views import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',home),
+    path("delete/<int:id>/",views.delete_chat, name = "delete_chat")
 
 ]
