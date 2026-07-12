@@ -6,7 +6,6 @@ import random
 from .models import Chat
 from google import genai
 
-client = genai.Client(api_key = "AIzaSyCaws_5QNhfhSWnYCU0BPJCsA6TX3bIa7o")
 
 def home(request):
 
