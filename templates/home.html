@@ -117,16 +117,33 @@
 
             </div>
 
-            <form method="post">
+            <form method="post" id="chatForm">
                 {% csrf_token %}
                 <div class="input-group">
                     <input type="text" name="message" class="form-control" placeholder="Type your message..." autofocus>
 
-                    <button class="btn btn-danger">Send 🔥</button>
+                    <button class="btn btn-danger" id="sendButton">Send 🔥</button>
+
+                    <p id="thinking" class="text-warning mt-2" style="display: none;">
+                        🤖 BroRoast AI is thinking...
+                    </p>
+
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    const form = document.getElementById("chatForm")
+
+    const thinking = document.getElementById("thinking")
+
+    form.addEventListener("submit", function(){
+        thinking.style.display = "block";
+    });
+    
+</script>
+
 </body>
 </html>

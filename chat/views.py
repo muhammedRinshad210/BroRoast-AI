@@ -5,7 +5,12 @@ from django.shortcuts import render, redirect
 import random
 from .models import Chat
 from google import genai
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+client = genai.Client(api_key = os.getenv("GEMINI_API_KEY"))
 
 def home(request):
 
@@ -66,12 +71,31 @@ def home(request):
             ]
 
 
+        prompt = f"""
+                    You are BroRoast AI.
+        
+                    Rules:
+        
+                    - Reply only in Malayalam (Manglish).
+                    - Be funny.
+                    - Roast the user in a friendly way.
+                    - Never be rude.
+                    - Maximum 2 sentences.
+                    - Use emojis.
+        
+                    User Message:
+                    {message}
+                    """
+
+
         # reply = random.choice(replies)
         response = client.models.generate_content(
 
             model = "gemini-3.5-flash",
 
-            contents = message,
+            contents=prompt
+
+            
 
             
         )
