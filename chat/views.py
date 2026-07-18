@@ -17,6 +17,16 @@ def home(request):
 
     message = request.POST.get("message")
 
+    previous_chats = Chat.objects.all().order_by("-id")[:5] 
+
+    conversation = ""
+
+    for chat in reversed(previous_chats):
+        conversation += f""""
+    user : {chat.user_message}
+    BroRoast AI : {chat.bot_reply}
+    """
+
     # Dictionary (Only for Learning)
     roasts = {
 
@@ -82,6 +92,9 @@ def home(request):
                     - Never be rude.
                     - Maximum 2 sentences.
                     - Use emojis.
+                    
+                    Previous Conversation:
+                    {conversation}
         
                     User Message:
                     {message}
