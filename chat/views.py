@@ -17,7 +17,9 @@ def home(request):
 
     message = request.POST.get("message")
 
-    previous_chats = Chat.objects.all().order_by("-id")[:5] 
+    MAX_CONTEXT = 5
+
+    previous_chats = Chat.objects.all().order_by("-id")[:MAX_CONTEXT] 
 
     conversation = ""
 
@@ -100,20 +102,25 @@ def home(request):
                     {message}
                     """
 
+        try:
+            # reply = random.choice(replies)
+            response = client.models.generate_content(
 
-        # reply = random.choice(replies)
-        response = client.models.generate_content(
+                model = "gemini-3.5-flash",
 
-            model = "gemini-3.5-flash",
-
-            contents=prompt
-
-            
+                contents=prompt
 
             
-        )
+
+            
+            )
+
         
-        reply = response.text
+            reply = response.text
+
+        except Exception as e:
+            print(e)
+            reply = "⚠️ BroRoast AI is busy right now. Please try again in a few seconds."
         
         Chat.objects.create(
             user_message=message,
