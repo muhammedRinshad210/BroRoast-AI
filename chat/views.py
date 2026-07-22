@@ -2,32 +2,39 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 
-import random
 from .models import Chat
-from google import genai
-import os
-from dotenv import load_dotenv
+from .services import generate_reply, BOT_NAME
 
-load_dotenv()
 
-client = genai.Client(api_key = os.getenv("GEMINI_API_KEY"))
+
+MAX_CONTEXT = 5
+
+
+
+
+
+
+
+def get_previous_conversation():
+    
+    previous_chats = Chat.objects.all().order_by("-id")[:MAX_CONTEXT] 
+    
+    conversation = ""
+
+    for chat in reversed(previous_chats):
+        conversation += f"""
+    user : {chat.user_message}
+    {BOT_NAME} : {chat.bot_reply}
+    """
+    return conversation
+
 
 def home(request):
 
 
     message = request.POST.get("message")
 
-    MAX_CONTEXT = 5
-
-    previous_chats = Chat.objects.all().order_by("-id")[:MAX_CONTEXT] 
-
-    conversation = ""
-
-    for chat in reversed(previous_chats):
-        conversation += f""""
-    user : {chat.user_message}
-    BroRoast AI : {chat.bot_reply}
-    """
+    conversation = get_previous_conversation()
 
     # Dictionary (Only for Learning)
     roasts = {
@@ -83,44 +90,13 @@ def home(request):
             ]
 
 
-        prompt = f"""
-                    You are BroRoast AI.
-        
-                    Rules:
-        
-                    - Reply only in Malayalam (Manglish).
-                    - Be funny.
-                    - Roast the user in a friendly way.
-                    - Never be rude.
-                    - Maximum 2 sentences.
-                    - Use emojis.
-                    
-                    Previous Conversation:
-                    {conversation}
-        
-                    User Message:
-                    {message}
-                    """
 
-        try:
-            # reply = random.choice(replies)
-            response = client.models.generate_content(
+        reply = generate_reply(
+            message, conversation
+        )
 
-                model = "gemini-3.5-flash",
-
-                contents=prompt
-
-            
-
-            
-            )
 
         
-            reply = response.text
-
-        except Exception as e:
-            print(e)
-            reply = "⚠️ BroRoast AI is busy right now. Please try again in a few seconds."
         
         Chat.objects.create(
             user_message=message,
